@@ -67,10 +67,11 @@ src = $(addprefix src/,\
 )
 
 CFLAGS = -std=c99
-CFLAGS += -Os -Wall
+CFLAGS += -Wall
 CFLAGS += -ggdb
 ifeq ($(PLATFORM),device)
 CFLAGS += $(shell $(NWLINK) eadk-cflags)
+CFLAGS += Os
 LDFLAGS = -Wl,--relocatable
 LDFLAGS += -nostartfiles
 LDFLAGS += --specs=nano.specs
@@ -79,7 +80,7 @@ CFLAGS += -DPLATFORM_DEVICE=1
 else
 # Only keep the header path from the eadk-cflags provided by nwlink
 # CFLAGS = $(shell $(NWLINK) eadk-cflags | sed -n -e 's/.*\(-I[^ ]*\).*/\1/p')
-CFLAGS = -Iinclude/
+CFLAGS += -Iinclude/ -g -O0
 LDFLAGS += -shared -undefined dynamic_lookup
 endif
 
