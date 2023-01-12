@@ -71,7 +71,7 @@ CFLAGS += -Wall
 CFLAGS += -ggdb
 ifeq ($(PLATFORM),device)
 CFLAGS += $(shell $(NWLINK) eadk-cflags)
-CFLAGS += Os
+CFLAGS += -Os
 LDFLAGS = -Wl,--relocatable
 LDFLAGS += -nostartfiles
 LDFLAGS += --specs=nano.specs
