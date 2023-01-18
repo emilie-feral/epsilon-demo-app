@@ -127,6 +127,8 @@ else
 $(SIMULATOR):
 	@echo "UNZIP   $<"
 	$(Q) unzip epsilon_simulators.zip
+	chmod +x $(SIMULATOR)
+
 .PHONY: build
 build: $(BUILD_DIR)/app.nws
 
