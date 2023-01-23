@@ -31,6 +31,7 @@ ifeq ($(PLATFORM),device)
   LTO = 1
 else
   SIMULATOR_PATH =
+  LD_DYNAMIC_LOOKUP_FLAG = -Wl,-undefined,dynamic_lookup
   ifeq ($(HOST),windows)
     ifeq ($(OS),Windows_NT)
       MINGW_TOOLCHAIN_PREFIX=
@@ -40,6 +41,7 @@ else
     CC = $(MINGW_TOOLCHAIN_PREFIX)gcc
     GDB = $(MINGW_TOOLCHAIN_PREFIX)gdb --args
     EXE = exe
+    LD_DYNAMIC_LOOKUP_FLAG = -Lepsilon_simulators/$(HOST) -lepsilon
   else ifeq ($(HOST),linux)
     CC = gcc
     GDB = gdb --args
@@ -81,7 +83,7 @@ else
 # Only keep the header path from the eadk-cflags provided by nwlink
 # CFLAGS = $(shell $(NWLINK) eadk-cflags | sed -n -e 's/.*\(-I[^ ]*\).*/\1/p')
 CFLAGS += -Iinclude/ -g -O0 -fPIC
-LDFLAGS += -shared -Wl,-undefined,dynamic_lookup
+LDFLAGS += -shared $(LD_DYNAMIC_LOOKUP_FLAG)
 endif
 
 ifeq ($(LINK_GC),1)
@@ -142,9 +144,9 @@ debug: $(BUILD_DIR)/app.nws $(SIMULATOR) src/input.txt
 	@echo "DEBUG   $<"
 	$(Q) $(GDB) $(SIMULATOR) --nwb $< --nwb-external-data $(word 3,$^)
 
-$(BUILD_DIR)/app.nws: $(call object_for,$(src))
+$(BUILD_DIR)/app.nws: $(call object_for,$(src)) $(SIMULATOR)
 	@echo "LD      $@"
-	$(Q) $(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@
+	$(Q) $(CC) $(CFLAGS) $(call object_for,$(src)) $(LDFLAGS) -o $@
 
 endif
 
