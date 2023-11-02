@@ -17,7 +17,7 @@ int main(int argc, char * argv[]) {
 
 To build this demo app on a simulator, you'll just need a C compiler (`gcc` is expected on Windows and Linux and `clang` is expected on MacOS).
 
-TO build it for a NumWorks device, you'll additionally need [Node.js](https://nodejs.org/en/) ([Installation with package manager](https://nodejs.org/en/download/package-manager/)). The C SDK for Epsilon apps is shipped as an npm module called [nwlink](https://www.npmjs.com/package/nwlink) that will automatically be installed at compile time.
+To build it for a NumWorks device, you'll additionally need [Node.js](https://nodejs.org/en/) ([Installation with package manager](https://nodejs.org/en/download/package-manager/)). The C SDK for Epsilon apps is shipped as an npm module called [nwlink](https://www.npmjs.com/package/nwlink) that will automatically be installed at compile time.
 
 ```shell
 make clean && make run
